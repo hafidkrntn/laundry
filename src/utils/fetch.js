@@ -7,44 +7,47 @@ export async function getData(url, params) {
         params,
       });
     } catch (error) {
-      return handleError(error);
+      console.log(error);
     }
   }
   
   export async function postData(url, payload, formData) {
     try {
-      const token = getToken();
+      // const token = getToken();
       return await axios.post(`${config.api_host_dev}${url}`, payload, {
         headers: {
           "Content-Type": formData ? "multipart/form-data" : "application/json",
         },
       });
     } catch (error) {
-      return handleError(error);
+      // return handleError(error);
+      console.log(error)
     }
   }
   
   export async function putData(url, payload) {
     try {
-      const token = getToken();
+      // const token = getToken();
       return await axios.put(`${config.api_host_dev}${url}`, payload);
     } catch (error) {
-      return handleError(error);
+      // return handleError(error);
+      console.log(error);
     }
   }
   
   export async function deleteData(url) {
     try {
-      const token = getToken();
+      // const token = getToken();
       return await axios.delete(`${config.api_host_dev}${url}`);
     } catch (error) {
-      return handleError(error);
+      // return handleError(error);
+      console.log(error);
     }
   }
   
   export async function getDownloadFile(url, params) {
     try {
-      const token = getToken();
+      // const token = getToken();
       return await axios.get(`${config.api_host_dev}${url}`, {
         params,
         headers: {
@@ -54,6 +57,7 @@ export async function getData(url, params) {
         responseType: 'blob',
       });
     } catch (error) {
-      return handleError(error);
+      // return handleError(error);
+      console.log(error);
     }
   }

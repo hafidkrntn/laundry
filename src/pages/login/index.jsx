@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../../components/button/Button";
 import InputTextWithLabel from "../../components/input/InputTextWithLabel";
 import { postData } from "../../utils/fetch";
@@ -7,18 +8,19 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     // Send Request to the server
     try {
-      const auth = await postData("/auth/login", { username, password });
-      console.log(auth, "ini auth")
+      await postData("/auth/login", { username, password });
     } catch (err) {
       setError(err.message);
     }
-  }
+    navigate("/dashboard");
+  };
 
   return (
     <div className="flex h-screen w-full items-center justify-center bg-[#eeeeee]">
