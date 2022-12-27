@@ -26,7 +26,7 @@ const Login = () => {
     <div className="flex h-screen w-full items-center justify-center bg-[#eeeeee]">
       <div className="h-96 w-96 rounded-3xl bg-white drop-shadow-2xl">
         <div className="flex h-1/4 w-auto items-center justify-center text-2xl">
-          Login
+          Login Cuy
         </div>
         <form className="mt-2 px-4" onSubmit={handleSubmit}>
           <div className="my-1 mx-2">
