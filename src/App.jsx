@@ -15,10 +15,12 @@ function App() {
         <Route
           path="/"
           element={
-            <>
+            <div>
               <Navbar />
-              <Sidebar />
-            </>
+              <div className="w-[95%] mx-auto">
+                <Sidebar />
+              </div>
+            </div>
           }
         >
           <Route path="dashboard" element={<Dashboard />} />

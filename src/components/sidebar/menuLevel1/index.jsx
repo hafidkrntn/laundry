@@ -2,7 +2,7 @@ import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import MenuLevel2 from "../MenuLevel2";
+import MenuLevel2 from "../menuLevel2";
 
 export default function MenuLevel1({ children, menuLevel, link }) {
   const [dropdown, setdropdown] = useState(false);
