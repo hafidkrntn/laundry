@@ -3,7 +3,7 @@ import React from "react";
 const Transaksi = () => {
     return (
         <div>
-            Transaksi
+            Transaksi 12345
         </div>
     )
 }
