@@ -1,89 +1,64 @@
 import React from "react";
-import Thead from "./Thead";
-import Tbody from "./Tbody";
-import { Pagination } from "../pagination/index";
 
-export default function Table({
-  className,
-  status,
-  columnTable,
-  data,
-  dataId,
-  handleDataId,
-  total,
-  pages,
-  page,
-  from,
-  limit,
-  handlePageClick,
-  actionNotDisplay,
-  handleFilterLimit,
-  handleSortTable,
-  options,
-  footerNone = false,
-  setInputTable = false,
-  handleChangeDataTable,
-  badge,
-}) {
+// components
+import Thead from "./Thead";
+import Tb from "./Tbody";
+
+// icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+
+const Table = ({ title }) => {
+  const Body = [
+    {
+      no: 1,
+      nama: "ihsan",
+      nohp: "081215032941",
+      alamat: "YOGYAKARTA",
+    },
+    {
+      no: 2,
+      nama: "hafidz",
+      nohp: "081215032941",
+      alamat: "tangerang",
+    },
+    {
+      no: 3,
+      nama: "hakun",
+      nohp: "081215032941",
+      alamat: "surabaya",
+    },
+    {
+      no: 4,
+      nama: "tantio",
+      nohp: "081215032941",
+      alamat: "semarang",
+    },
+  ];
   return (
-    <>
-      <div className="relative h-[70vh] overflow-x-auto sm:rounded-lg">
-        <table className="w-full text-left text-sm text-gray-500 ">
-          <Thead
-            className={className}
-            columnTable={columnTable}
-            handleSortTable={handleSortTable}
-            actionNotDisplay={actionNotDisplay}
-          />
-          <Tbody
-            setInputTable={setInputTable}
-            options={options}
-            status={status}
-            data={data}
-            dataId={dataId}
-            handleDataId={handleDataId}
-            columnTable={columnTable}
-            actionNotDisplay={actionNotDisplay}
-            handleChangeDataTable={handleChangeDataTable}
-            from={from}
-            badge={badge}
-          />
-        </table>
-        {footerNone ? (
-          ""
-        ) : (
-          <div className="sticky bottom-0 mt-7 flex bg-white text-sm text-gray-3">
-            <p className="my-auto mr-6">
-              {from && (
-                <>
-                  Menampilkan {from} - {+from + +limit - 1} Dari {total} Data`
-                </>
-              )}
-            </p>
-            <Pagination
-              pages={pages}
-              handlePageClick={handlePageClick}
-              page={page}
+    <div className="mt-10 bg-gray-200 border-t-8 border-t-green-navbar">
+      <div className="w-[97%] mx-auto pb-14">
+        <div className="flex text-green-navbar text-xl">
+          <button>
+            <FontAwesomeIcon icon={faInfoCircle} className="my-auto" />
+          </button>
+          <p className="uppercase pl-3 py-6">{title}</p>
+        </div>
+        <table className="font-[Poppins] w-full overflow-hidden">
+          <Thead header={"No"} />
+          {Body.map((item, key) => (
+            <Tb
+              key={key}
+              no={item.no}
+              nama={item.nama}
+              nohp={item.nohp}
+              alamat={item.alamat}
             />
-            <div className="ml-auto flex h-8 justify-center p-1">
-              <p className="m-auto text-sm -tracking-wide text-gray-3">
-                Tampilkan
-              </p>
-              <select
-                onChange={(e) => {
-                  handleFilterLimit(e.target.value);
-                }}
-                className="text-blue-3 outline-none"
-              >
-                <option value={10}>10</option>
-                <option value={20}>20</option>
-                <option value={30}>30</option>
-              </select>
-              <p className="m-auto text-sm -tracking-wide text-gray-3">Data</p>
-            </div>
-          </div>
-        )}
+          ))}
+        </table>
       </div>
-    </>
+    </div>
   );
-}
+};
+
+export default Table;
