@@ -6,7 +6,7 @@ const Header = ({ title }) => {
     <div>
       <h1 className="text-4xl">{title}</h1>
       <div className="flex flex-wrap justify-between items-center mt-20">
-        <div>
+        <div> 
           <InputSearch placeholder="Search" />
         </div>
         <div className="flex flex-wrap space-x-5">

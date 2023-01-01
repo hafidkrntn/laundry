@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const DashCard = ({ jumlah, status, icon }) => {
   return (
-    <div>
-      <div className="text-center rounded-3xl text-white w-64 py-6 mt-6 bg-green-navbar space-y-2">
+    <div className="relative">
+      <div className="text-center rounded-xl text-white w-[251px] py-6 mt-6 bg-green-navbar space-y-2">
         <FontAwesomeIcon icon={icon} className="text-9xl" />
         <div className="text-2xl">
           <p>{jumlah}</p>
