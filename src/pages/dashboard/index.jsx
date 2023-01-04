@@ -18,17 +18,17 @@ const Card = [
   },
   {
     jumlah: "12",
-    status: "Baru",
+    status: "Proses",
     icon: faRedo,
   },
   {
     jumlah: "12",
-    status: "Baru",
+    status: "Sudah Selesai",
     icon: faCheck,
   },
   {
     jumlah: "12",
-    status: "Baru",
+    status: "Sudah Diambil",
     icon: faCheckCircle,
   },
 ];
