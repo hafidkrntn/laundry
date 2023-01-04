@@ -63,7 +63,6 @@ const Transaksi = () => {
   ]);
 
   const handleModalOpen = useCallback(
-    /**  @param {"create" | "delete"} action */
     (action) => {
       setAction(action);
       setIsModalOpen(true);
@@ -164,24 +163,24 @@ const Transaksi = () => {
             return (
               <TransaksiCreate
                 fetchAllData={() => {
-                  dispatch(fetchAllData(false))
+                  dispatch(fetchAllData(false));
                 }}
                 isModalOpen={handleModalOpen}
                 onCloseModal={handleModalClose}
                 paketData={transaksi.paket}
               />
             );
-          // case "edit":
-          //   return <TransaksiEdit dataId={dataId} />;
-          // case "delete":
-          //   return (
-          //     <TransaksiDelete
-          //       dataId={dataId}
-          //       fetchPelatihanOrg={() => {
-          //         dispatch(fetchPelatihanOrg(false));
-          //       }}
-          //     />
-          //   );
+          case "edit":
+            return <TransaksiEdit dataId={dataId} />;
+          case "delete":
+            return (
+              <TransaksiDelete
+                dataId={dataId}
+                fetchAllData={() => {
+                  dispatch(fetchAllData(false));
+                }}
+              />
+            );
           default:
             break;
         }
@@ -203,7 +202,16 @@ const Transaksi = () => {
             <Button
               children="Eksport"
               className="bg-green-700 hover:bg-green-600 px-9"
+              exportExcel={() => {
+                dispatch(
+                  downloadFile(
+                    "/export/transaksi/excel",
+                    "DATA TRANSAKSI.xlsx"
+                  )
+                );
+              }}
             />
+
             <ButtonModal
               children="Tambah Data"
               className="bg-blue-600 hover:bg-blue-500 px-7"

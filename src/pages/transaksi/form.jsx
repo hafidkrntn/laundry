@@ -1,4 +1,3 @@
-import ButtonModal from "../../components/buttonModal";
 import InputTextWithLebel from "../../components/input/InputTextWithLabel";
 import SelectDropdown from "../../components/selectDropdown";
 
@@ -50,6 +49,13 @@ const TransaksiForm = ({
             value={form.berat}
             validation={formValidation.berat}
           />
+          <InputTextWithLebel
+            name="harga"
+            label="Harga"
+            onChange={handleChange}
+            value={form.harga}
+            validation={formValidation.harga}
+          />
         </div>
         <InputTextWithLebel
           name="total"
@@ -69,10 +75,10 @@ const TransaksiForm = ({
           handleChangeDropdown={handleChangeDropdown}
           formValidation={formValidation.pembayaran}
         />
-        <ButtonModal className="bg-[#6ECCAF] hover:bg-blue-600">
+        <button className="bg-[#6ECCAF] hover:bg-blue-600 w-full rounded-xl text-white text-2xl py-2" type="submit">
           {" "}
           Create{" "}
-        </ButtonModal>
+        </button>
       </div>
     </form>
   );

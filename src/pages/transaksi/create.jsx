@@ -1,13 +1,14 @@
 import React, { useCallback, useState } from "react";
 import Modal from "../../components/modal";
+import { useDispatch } from "react-redux";
 import TransaksiForm from "./form";
 import { postData } from "../../utils/fetch";
+import { setKeyword } from "../../redux/transaksi/actions";
 
 const TransaksiCreate = ({ isModalOpen, onCloseModal, paketData }) => {
-  const total = paketData.map((data) => data.harga)
-  // console.log(res)
   const [selectedPaketDropdown, setSelectedPaketDropdown] = useState("");
   const [selectedDropdown, setSelectedDropdown] = useState("");
+  const dispatch = useDispatch();
   const [form, setForm] = useState({
     createdAt: "",
     customer: "",
@@ -32,9 +33,12 @@ const TransaksiCreate = ({ isModalOpen, onCloseModal, paketData }) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleTotalChange = useCallback((e) => {
-    setForm({ ...form, total: e.target.value })
-  },[form]);
+  const handleTotalChange = useCallback(
+    (e) => {
+      setForm({ ...form, total: e.target.value });
+    },
+    [form]
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,7 +49,9 @@ const TransaksiCreate = ({ isModalOpen, onCloseModal, paketData }) => {
       formResult = { ...form, pembayaran: 2 };
     }
     const res = await postData("/transaksi/create", formResult);
-    console.log(res.data)
+    if (res?.data?.data) {
+      dispatch(setKeyword(form.customer));
+    }
   };
 
   const handleChangeDropdown = useCallback(
@@ -79,7 +85,10 @@ const TransaksiCreate = ({ isModalOpen, onCloseModal, paketData }) => {
   if (isModalOpen) {
     return (
       <div className="">
-        <Modal name="Create Transaksi" handleCLoseModal={onCloseModal}>
+        <Modal
+          name="Create Transaksi"
+          handleCLoseModal={onCloseModal}
+        >
           <TransaksiForm
             buttonColor="blue"
             buttonText="Simpan"
@@ -96,7 +105,6 @@ const TransaksiCreate = ({ isModalOpen, onCloseModal, paketData }) => {
             // handle penghitungan total
             optionsTotal={paketData.map((data) => data)}
             handleTotalChange={handleTotalChange}
-
             options={["Lunas", "Belum Lunas"]}
             formValidation={formValidation}
           />

@@ -1,26 +1,39 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import Button from "../../components/button/Button";
 import InputTextWithLabel from "../../components/input/InputTextWithLabel";
 import { postData } from "../../utils/fetch";
+import { userLogin } from "../../redux/auth/actions";
+import { getTokenFromLS } from "../../utils/jwt";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
+    setIsLoading(true);
+    setError("");
+
     // Send Request to the server
     try {
-      await postData("/auth/login", { username, password });
+      const auth = await postData("/auth/login", { username, password });
+      dispatch(userLogin(auth.data.token));
     } catch (err) {
-      setError(err.message);
+      throw Error(err.message);
     }
-    navigate("/dashboard");
-  }
+
+    const token = getTokenFromLS();
+
+    if (token) {
+      navigate("/dashboard");
+    }
+  };
 
   return (
     <div className="flex h-screen w-full items-center justify-center bg-[#eeeeee]">
@@ -51,7 +64,12 @@ const Login = () => {
             />
           </div>
           <div className="my-5 mx-2">
-            <Button className="w-full bg-green-navbar hover:bg-green-400">Login</Button>
+            <Button
+              className="w-full bg-green-navbar hover:bg-green-400"
+              loading={isLoading}
+            >
+              Login
+            </Button>
           </div>
         </form>
       </div>
