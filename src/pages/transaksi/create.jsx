@@ -1,51 +1,56 @@
 import React, { useCallback, useState } from "react";
 import Modal from "../../components/modal";
+import { useDispatch } from "react-redux";
 import TransaksiForm from "./form";
 import { postData } from "../../utils/fetch";
+import { setKeyword } from "../../redux/transaksi/actions";
 
 const TransaksiCreate = ({ isModalOpen, onCloseModal, paketData }) => {
-  const total = paketData.map((data) => data.harga)
-  // console.log(res)
   const [selectedPaketDropdown, setSelectedPaketDropdown] = useState("");
+  // console.log(paketData.map((data) => data.nama_paket))
   const [selectedDropdown, setSelectedDropdown] = useState("");
+  const dispatch = useDispatch();
   const [form, setForm] = useState({
-    createdAt: "",
     customer: "",
-    nama_paket: "",
+    paket: "",
     berat: "",
     harga: "",
     total: "",
-    pembayaran: "",
+    pembayaran: "Lunas/Belum Lunas",
   });
 
   const [formValidation, setFormValidation] = useState({
-    createdAt: "",
     customer: "",
-    nama_paket: "",
+    paket: "",
     berat: "",
     harga: "",
     total: "",
-    pembayaran: "",
+    pembayaran: "Lunas/Belum Lunas",
   });
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleTotalChange = useCallback((e) => {
-    setForm({ ...form, total: e.target.value })
-  },[form]);
+  const handleTotalChange = useCallback(
+    (e) => {
+      setForm({ ...form, total: e.target.value });
+    },
+    [form]
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     let formResult = { ...form };
-    if (formResult.pembayaran.toLowerCase() === "Lunas") {
-      formResult = { ...form, pembayaran: 1 };
-    } else if (formResult.pembayaran.toLowerCase() === "Belum Lunas") {
-      formResult = { ...form, pembayaran: 2 };
+    if (formResult.pembayaran.toLowerCase() === "lunas") {
+      formResult = { ...form, pembayaran: true };
+    } else if (formResult.pembayaran.toLowerCase() === "belum lunas") {
+      formResult = { ...form, pembayaran: false };
     }
     const res = await postData("/transaksi/create", formResult);
-    console.log(res.data)
+    if (res?.data?.data) {
+      dispatch(setKeyword(form.customer));
+    }
   };
 
   const handleChangeDropdown = useCallback(
@@ -57,8 +62,9 @@ const TransaksiCreate = ({ isModalOpen, onCloseModal, paketData }) => {
   );
 
   const handlePaketChangeDropdown = useCallback(
-    (nama_paket, valueSelected) => {
-      setForm({ ...form, nama_paket: nama_paket });
+    (paket, valueSelected) => {
+      console.log(form)
+      setForm({ ...form, nama_paket: paket});
       setSelectedPaketDropdown(valueSelected);
     },
     [form]
@@ -66,7 +72,6 @@ const TransaksiCreate = ({ isModalOpen, onCloseModal, paketData }) => {
 
   const resetForm = () => {
     setForm({
-      createdAt: "",
       customer: "",
       paket: "",
       berat: "",
@@ -75,6 +80,18 @@ const TransaksiCreate = ({ isModalOpen, onCloseModal, paketData }) => {
       pembayaran: "",
     });
   };
+
+  const resetFormValidation = () => {
+    setFormValidation({
+      customer: "",
+      paket: "",
+      berat: "",
+      harga: "",
+      total: "",
+      pembayaran: "",
+    });
+  };
+
 
   if (isModalOpen) {
     return (
@@ -94,11 +111,15 @@ const TransaksiCreate = ({ isModalOpen, onCloseModal, paketData }) => {
             selectedPaketDropdown={selectedPaketDropdown}
             optionsPaket={paketData.map((data) => data)}
             // handle penghitungan total
-            optionsTotal={paketData.map((data) => data)}
+            // optionsTotal={redux.map((data) => data)}
             handleTotalChange={handleTotalChange}
-
             options={["Lunas", "Belum Lunas"]}
             formValidation={formValidation}
+            cancelModal={() => {
+              resetForm();
+              resetFormValidation();
+          }}
+
           />
         </Modal>
       </div>

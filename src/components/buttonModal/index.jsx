@@ -10,11 +10,12 @@ export default function ButtonModal({
   modalOnePage,
   action,
   loading,
+  type,
 }) {
   return (
     <>
       <button
-        type="button"
+        type={"button" || type}
         className={`${className} mr-2 rounded-lg bg-${color}-3 py-2.5 text-sm font-semibold text-white hover:bg-${color}-2 focus:outline-none focus:ring-4 focus:ring-${color}-4`}
       >
         {!modalOnePage ? (

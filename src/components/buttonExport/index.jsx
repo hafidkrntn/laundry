@@ -64,14 +64,6 @@ export default function ButtonExport({
               Export Excel
             </button>
           </li>
-          <li>
-            <button
-              className="w-full py-2 px-4 text-sm text-gray-700  hover:bg-gray-100"
-              onClick={exportPdf}
-            >
-              Export PDF
-            </button>
-          </li>
         </ul>
       }
     </div>

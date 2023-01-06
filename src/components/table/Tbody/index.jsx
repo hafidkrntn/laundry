@@ -30,7 +30,7 @@ export const Tbody = ({
               <svg
                 aria-hidden="true"
                 className="mr-2 h-8 w-8 animate-spin fill-blue-600 text-gray-200"
-                viewBox="0 0 100 101"
+                printBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
@@ -238,11 +238,11 @@ export const Tbody = ({
                         </div>
                         <div
                           className="tooltip static hover:relative"
-                          data-tip="Lihat"
+                          data-tip="Print"
                         >
                           <button
                             className="mr-1 text-blue-3 hover:bg-blue-5"
-                            onClick={() => handleDataId(loopData[key], "view")}
+                            onClick={() => handleDataId(loopData[key], "print")}
                           >
                             <label
                               htmlFor="my-modal"

@@ -8,6 +8,7 @@ import { Link, Outlet } from "react-router-dom";
 
 export default function Sidebar() {
   const menus = listMenu.data;
+  const currentDate = new Date().toLocaleDateString();
 
   return (
     <div className="flex bg-[#FCFCFC] py-3">
@@ -47,6 +48,9 @@ export default function Sidebar() {
               }
             })}
           </ul>
+          <div className="relative items-center ml-[6rem] mt-[38rem] text-base">
+            {currentDate}
+          </div>
         </div>
       </aside>
       <Outlet />
