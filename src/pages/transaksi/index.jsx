@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Table from "../../components/table";
-import Button from "../../components/button/Button";
 import ButtonModal from "../../components/buttonModal/index";
 import { InputSearch } from "../../components/input/InputSearch";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchAllData,
   setKeyword,
+  setLimit,
   setOrderBy,
   setOrderDirection,
   setPage,
@@ -15,6 +15,8 @@ import TransaksiCreate from "./create";
 import TransaksiDelete from "./delete";
 import TransaksiEdit from "./update";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { getDownloadFile, getDownloadPdf } from "../../utils/fetch";
+
 
 const Transaksi = () => {
   const transaksi = useSelector((state) => state.transaksi);
@@ -62,6 +64,14 @@ const Transaksi = () => {
     },
   ]);
 
+  const handlePrintExcel = async () => {
+    await getDownloadFile("/export/transaksi/excel");
+  };
+
+  const handleDownloadPdf = async () => {
+    await getDownloadPdf(`/download/pdf/${dataId}`)
+  };
+
   const handleModalOpen = useCallback(
     (action) => {
       setAction(action);
@@ -81,6 +91,7 @@ const Transaksi = () => {
   );
 
   const handleDataId = (dataId, action) => {
+    console.log(dataId);
     setDataId(dataId);
     setAction(action);
   };
@@ -171,7 +182,13 @@ const Transaksi = () => {
               />
             );
           case "edit":
-            return <TransaksiEdit dataId={dataId} />;
+            return (
+              <TransaksiEdit
+                dataId={dataId}
+                isModalOpen={handleModalOpen}
+                onCloseModal={handleModalClose}
+              />
+            );
           case "delete":
             return (
               <TransaksiDelete
@@ -179,8 +196,12 @@ const Transaksi = () => {
                 fetchAllData={() => {
                   dispatch(fetchAllData(false));
                 }}
+                isModalOpen={handleModalOpen}
+                onCloseModal={handleModalClose}
               />
             );
+          case "print":
+            return handleDownloadPdf();
           default:
             break;
         }
@@ -190,32 +211,26 @@ const Transaksi = () => {
         <div className="flex flex-wrap justify-between items-center mt-20">
           <div>
             <InputSearch
-              placeholder="Search"
               query={transaksi.keyword}
               handleChange={(e) => {
+                console.log(setKeyword(e.target.value))
                 dispatch(setKeyword(e.target.value));
                 dispatch(setPage(1));
               }}
             />
           </div>
           <div className="flex flex-wrap space-x-5">
-            <Button
-              children="Eksport"
-              className="bg-green-700 hover:bg-green-600 px-9"
-              exportExcel={() => {
-                dispatch(
-                  downloadFile(
-                    "/export/transaksi/excel",
-                    "DATA TRANSAKSI.xlsx"
-                  )
-                );
-              }}
-            />
+            <button
+              className="text-white rounded-lg bg-green-700 hover:bg-green-600 px-9"
+              onClick={handlePrintExcel}
+            >
+              {" "}
+              Export{" "}
+            </button>
 
             <ButtonModal
               children="Tambah Data"
-              className="bg-blue-600 hover:bg-blue-500 px-7"
-              icon={faPlus}
+              className="bg-blue-600 hover:bg-blue-500 px-2"
               action={() => {
                 handleModalOpen("create");
               }}
@@ -231,6 +246,12 @@ const Transaksi = () => {
             total={transaksi.total}
             pages={transaksi.pages}
             page={transaksi.page}
+            limit={transaksi.limit}
+            handleSortTable={handleSortTable}
+            handleFilterLimit={(limit) => dispatch(setLimit(limit))}
+            handlePageClick={({ selected }) => {
+              dispatch(setPage(selected + 1))
+            }}
           />
         </div>
       </div>

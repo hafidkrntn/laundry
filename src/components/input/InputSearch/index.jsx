@@ -1,18 +1,20 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
-export const InputSearch = ({ handleChange, query, placeholder }) => {
+export const InputSearch = ({ handleChange, query }) => {
   return (
-    <div className="relative w-fit rounded">
-      <button className="absolute right-4 top-2">
-        {/* <BsSearch className="scale-150" /> */}
-        <FontAwesomeIcon icon={faSearch} className="scale-125" />
-      </button>
+    <div className="relative mt-1 ml-2">
+      <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+        <FontAwesomeIcon icon={faMagnifyingGlass} className="text-gray-3" />
+      </div>
       <input
-        type="search"
-        className="border rounded-lg p-2 bg-gray-200"
-        placeholder={placeholder}
+      id="table-search"
+        type="text"
+        className="border block rounded-lg p-2 bg-gray-200 w-54 pl-10 text-sm font-semibold text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+        placeholder="Cari Data"
+        onChange={handleChange}
+        value={query}
       />
     </div>
   );

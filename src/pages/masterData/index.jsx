@@ -13,6 +13,7 @@ import {
 } from "../../redux/masterData/actions";
 // import datasCreate from "./create";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { getDownloadFile } from "../../utils/fetch";
 
 const MasterData = () => {
   const datas = useSelector((state) => state.masterData);
@@ -42,8 +43,11 @@ const MasterData = () => {
     },
   ]);
 
+  const handlePrintExcel = async () => {
+    await getDownloadFile("/export/datalaundry/excel");
+  }
+
   const handleModalOpen = useCallback(
-    /**  @param {"create" | "delete"} action */
     (action) => {
       setAction(action);
       setIsModalOpen(true);
@@ -126,7 +130,7 @@ const MasterData = () => {
             return (
               <datasCreate
                 fetchAllData={() => {
-                  dispatch(fetchAllData(false))
+                  dispatch(fetchAllData(false));
                 }}
                 isModalOpen={handleModalOpen}
                 onCloseModal={handleModalClose}
@@ -162,10 +166,13 @@ const MasterData = () => {
             />
           </div>
           <div className="flex flex-wrap space-x-5">
-            <Button
-              children="Eksport"
-              className="bg-green-700 hover:bg-green-600 px-9"
-            />
+            <button
+              className="text-white rounded-lg bg-green-700 hover:bg-green-600 px-9"
+              onClick={handlePrintExcel}
+            >
+              {" "}
+              Export{" "}
+            </button>
             <ButtonModal
               children="Tambah Data"
               className="bg-blue-600 hover:bg-blue-500 px-7"
