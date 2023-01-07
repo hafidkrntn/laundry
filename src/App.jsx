@@ -27,17 +27,17 @@ function App() {
           <Route
             path="dashboard"
             element={
-              <GuardRoute>
+              // <GuardRoute>
                 <Dashboard />
-              </GuardRoute>
+              // </GuardRoute>
             }
           />
           <Route
             path="transaksi"
             element={
-              <GuardRoute>
+              // <GuardRoute>
                 <Transaksi />
-              </GuardRoute>
+              // </GuardRoute>
             }
           />
           <Route path="master-data" element={<MasterData />} />

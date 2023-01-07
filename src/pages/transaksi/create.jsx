@@ -99,6 +99,7 @@ const TransaksiCreate = ({ isModalOpen, onCloseModal, paketData }) => {
         <Modal name="Create Transaksi" handleCLoseModal={onCloseModal}>
           <TransaksiForm
             buttonColor="blue"
+            buttonClass="border border-gray-3 bg-green-navbar text-white hover:bg-green-300"
             buttonText="Simpan"
             disabled
             form={form}
