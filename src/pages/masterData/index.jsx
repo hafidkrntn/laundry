@@ -11,9 +11,10 @@ import {
   setOrderDirection,
   setPage,
 } from "../../redux/masterData/actions";
-// import datasCreate from "./create";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import Create from "./create";
 import { getDownloadFile } from "../../utils/fetch";
+import Edit from "./update";
+import Delete from "./delete";
 
 const MasterData = () => {
   const datas = useSelector((state) => state.masterData);
@@ -45,7 +46,7 @@ const MasterData = () => {
 
   const handlePrintExcel = async () => {
     await getDownloadFile("/export/datalaundry/excel");
-  }
+  };
 
   const handleModalOpen = useCallback(
     (action) => {
@@ -128,26 +129,33 @@ const MasterData = () => {
         switch (action) {
           case "create":
             return (
-              <datasCreate
+              <Create
                 fetchAllData={() => {
                   dispatch(fetchAllData(false));
                 }}
                 isModalOpen={handleModalOpen}
                 onCloseModal={handleModalClose}
-                paketData={datas.paket}
               />
             );
-          // case "edit":
-          //   return <datasEdit dataId={dataId} />;
-          // case "delete":
-          //   return (
-          //     <datasDelete
-          //       dataId={dataId}
-          //       fetchPelatihanOrg={() => {
-          //         dispatch(fetchPelatihanOrg(false));
-          //       }}
-          //     />
-          //   );
+          case "edit":
+            return (
+              <Edit
+                dataId={dataId}
+                isModalOpen={handleModalOpen}
+                onCloseModal={handleModalClose}
+              />
+            );
+          case "delete":
+            return (
+              <Delete
+                dataId={dataId}
+                fetchAllData={() => {
+                  dispatch(fetchAllData(false));
+                }}
+                isModalOpen={handleModalOpen}
+                onCloseModal={handleModalClose}
+              />
+            );
           default:
             break;
         }
@@ -176,7 +184,6 @@ const MasterData = () => {
             <ButtonModal
               children="Tambah Data"
               className="bg-blue-600 hover:bg-blue-500 px-7"
-              icon={faPlus}
               action={() => {
                 handleModalOpen("create");
               }}

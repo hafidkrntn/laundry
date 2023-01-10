@@ -7,28 +7,15 @@ const TransaksiDelete = ({
   isModalOpen,
   onCloseModal,
   dataId,
-  fetchAllData,
 }) => {
-  const redux = useSelector((state) => state.transaksi);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    const res = await deleteData(`/transaksi/delete/${dataId}`);
-    if (res?.data?.meta?.code === 200) {
-      fetchAllData();
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1500);
-    }
-    if (res?.response?.data?.meta) {
-      console.log(
-        "Error",
-        res.response.data.meta.code,
-        res.response.data.meta.message
-      );
-    }
+    await deleteData(`/transaksi/delete/${dataId}`);
+    onCloseModal();
+    window.location.reload(true);
   };
 
   if (isModalOpen) {

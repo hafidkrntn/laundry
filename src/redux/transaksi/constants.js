@@ -8,3 +8,4 @@ export const SET_ORDER_BY = "redux/transaksi/SET_ORDER_BY_ORG_TRANSAKSI";
 export const SET_ORDER_DIRECTION =
   "redux/transaksi/SET_ORDER_DIRECTION_ORG_TRANSAKSI";
 export const SET_PAKET = "redux/paket/SET_PAKET";
+export const SET_CUSTOMER = "redux/customer/SET_CUSTOMER";

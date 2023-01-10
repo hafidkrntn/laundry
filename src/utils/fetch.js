@@ -83,16 +83,17 @@ export async function getDownloadPdf(url, params) {
           Accept: "*/*",
           "Content-Type": "application/json",
         },
+        responseType: "blob",
       })
       .then((response) => {
-        const url = window.URL.createObjectURL(response.data);
+        const url = URL.createObjectURL(response.data);
         const a = document.createElement("a");
         a.style.display = "none";
         a.href = url;
-        a.download = "Print Invoice.pdf";
+        a.download = "Print Nota.pdf";
         document.body.appendChild(a);
         a.click();
-        window.URL.revokeObjectURL(url);
+        URL.revokeObjectURL(url);
       });
   } catch (error) {
     // return handleError(error);

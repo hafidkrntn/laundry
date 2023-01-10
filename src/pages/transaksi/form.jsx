@@ -1,6 +1,5 @@
 import Button from "../../components/button/Button";
 import ButtonModal from "../../components/buttonModal";
-// import Button from "../../components/button";
 import InputTextWithLebel from "../../components/input/InputTextWithLabel";
 import SelectDropdown from "../../components/selectDropdown";
 
@@ -26,7 +25,6 @@ const TransaksiForm = ({
   handleTotalChange,
   optionsPaket,
 }) => {
-  // console.log(optionsPaket.map((data) => data.nama_paket))
   return (
     <form
       className="flex h-[90%] p-4 flex-col justify-between space-y-6"
@@ -50,6 +48,7 @@ const TransaksiForm = ({
             }
             option={false}
             noneOption={noneOption}
+            value={form.paket}
             selectedDropdown={selectedPaketDropdown}
             handleChangeDropdown={handlePaketChangeDropdown}
             validation={formValidation.paket}

@@ -8,6 +8,7 @@ import {
   SET_ORDER_DIRECTION,
   SET_PAGE,
   SET_PAKET,
+  SET_CUSTOMER,
 } from "./constants";
 
 import { getData } from "../../utils/fetch";
@@ -27,11 +28,12 @@ export const errorTransaksi = () => {
   };
 };
 
-export const successTransaksi = ({ transaksi, paket }) => {
+export const successTransaksi = ({ transaksi, paket, customer }) => {
   return {
     type: SUCCESS_TRANSAKSI,
     transaksi,
     paket,
+    customer,
   };
 };
 
@@ -60,13 +62,28 @@ export const fetchAllData = (noloading) => {
         setPaket({
           paket: paket.data,
         })
-      )
+      );
+
+      // redux customer dashboard
+      let customer = await debouncedFetchTalents(`/users/users`);
+      dispatch(
+        setCustomer({
+          customer: customer.data,
+        })
+      );
 
     } catch {
       dispatch(errorFetching());
     }
   };
 };
+
+export const setCustomer = (data) => {
+  return {
+    type: SET_CUSTOMER,
+    customer: data.customer,
+  }
+}
 
 export const setPaket = (data) => {
   return {

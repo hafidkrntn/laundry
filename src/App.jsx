@@ -27,21 +27,35 @@ function App() {
           <Route
             path="dashboard"
             element={
-              <GuardRoute>
-                <Dashboard />
-              </GuardRoute>
+              // <GuardRoute>
+              <Dashboard />
+              // </GuardRoute>
             }
           />
           <Route
             path="transaksi"
             element={
-              <GuardRoute>
-                <Transaksi />
-              </GuardRoute>
+              // <GuardRoute>
+              <Transaksi />
+              // </GuardRoute>
             }
           />
-          <Route path="master-data" element={<MasterData />} />
-          <Route path="customer" element={<Customer />} />
+          <Route
+            path="master-data"
+            element={
+              // <GuardRoute>
+              <MasterData />
+              // </GuardRoute>
+            }
+          />
+          <Route
+            path="customer"
+            element={
+              // <GuardRoute>
+              <Customer />
+              // </GuardRoute>
+            }
+          />
         </Route>
       </Routes>
     </Router>
