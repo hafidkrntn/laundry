@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "../../components/modal";
-import TransaksiForm from "./form";
+import TransaksiForm from "../transaksi/form";
 import { postData } from "../../utils/fetch";
 
-const TransaksiEdit = ({ isModalOpen, onCloseModal, dataId }) => {
+const Edit = ({ isModalOpen, onCloseModal, dataId }) => {
   const redux = useSelector((state) => state.transaksi.data);
   // console.log(redux)
   const dispatch = useDispatch();
@@ -117,4 +117,4 @@ const TransaksiEdit = ({ isModalOpen, onCloseModal, dataId }) => {
   }
 };
 
-export default TransaksiEdit;
+export default Edit;

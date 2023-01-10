@@ -1,15 +1,13 @@
 import React, { useCallback, useState } from "react";
 import Modal from "../../components/modal";
-import { useDispatch } from "react-redux";
 import TransaksiForm from "./form";
 import { postData } from "../../utils/fetch";
-import { setKeyword } from "../../redux/transaksi/actions";
+
 
 const TransaksiCreate = ({ isModalOpen, onCloseModal, paketData }) => {
   const [selectedPaketDropdown, setSelectedPaketDropdown] = useState("");
   // console.log(paketData.map((data) => data.nama_paket))
   const [selectedDropdown, setSelectedDropdown] = useState("");
-  const dispatch = useDispatch();
   const [form, setForm] = useState({
     customer: "",
     paket: "",
@@ -47,10 +45,9 @@ const TransaksiCreate = ({ isModalOpen, onCloseModal, paketData }) => {
     } else if (formResult.pembayaran.toLowerCase() === "belum lunas") {
       formResult = { ...form, pembayaran: false };
     }
-    const res = await postData("/transaksi/create", formResult);
-    if (res?.data?.data) {
-      dispatch(setKeyword(form.customer));
-    }
+    await postData("/transaksi/create", formResult);
+    onCloseModal();
+    window.location.reload(true);
   };
 
   const handleChangeDropdown = useCallback(
@@ -107,18 +104,17 @@ const TransaksiCreate = ({ isModalOpen, onCloseModal, paketData }) => {
             handleChange={handleChange}
             handleSubmit={handleSubmit}
             handleChangeDropdown={handleChangeDropdown}
-            // Handle Paket Change Dropdown
             handlePaketChangeDropdown={handlePaketChangeDropdown}
             selectedPaketDropdown={selectedPaketDropdown}
             optionsPaket={paketData.map((data) => data)}
-            // handle penghitungan total
-            // optionsTotal={redux.map((data) => data)}
             handleTotalChange={handleTotalChange}
             options={["Lunas", "Belum Lunas"]}
             formValidation={formValidation}
+            resetFormValidation={resetFormValidation}
             cancelModal={() => {
               resetForm();
               resetFormValidation();
+              onCloseModal();
           }}
 
           />

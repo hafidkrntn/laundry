@@ -1,5 +1,5 @@
 import {
-  faFile,
+  faBookmark,
   faPenToSquare,
   faTrashAlt,
 } from "@fortawesome/free-regular-svg-icons";
@@ -249,7 +249,7 @@ export const Tbody = ({
                               className="hover:cursor-pointer hover:bg-blue-5"
                             >
                               <FontAwesomeIcon
-                                icon={faFile}
+                                icon={faBookmark}
                                 className="rounded-md border border-blue-4 p-1"
                               />
                             </label>

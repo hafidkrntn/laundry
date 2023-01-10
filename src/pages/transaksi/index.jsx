@@ -16,12 +16,13 @@ import TransaksiDelete from "./delete";
 import TransaksiEdit from "./update";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { getDownloadFile, getDownloadPdf } from "../../utils/fetch";
-
+import { useNavigate } from "react-router-dom";
 
 const Transaksi = () => {
   const transaksi = useSelector((state) => state.transaksi);
   // console.log(transaksi.paket)
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [dataId, setDataId] = useState("");
   const [action, setAction] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -64,14 +65,8 @@ const Transaksi = () => {
     },
   ]);
 
-  const handlePrintExcel = async () => {
-    await getDownloadFile("/export/transaksi/excel");
-  };
-
-  const handleDownloadPdf = async () => {
-    await getDownloadPdf(`/download/pdf/${dataId}`)
-  };
-
+  
+  
   const handleModalOpen = useCallback(
     (action) => {
       setAction(action);
@@ -90,8 +85,14 @@ const Transaksi = () => {
     [isModalOpen]
   );
 
+  const handleDownloadPdf = async () => {
+    await getDownloadPdf(`/download/pdf/${dataId}`);
+    handleModalClose();
+    window.location.reload(true);
+  };
+
+
   const handleDataId = (dataId, action) => {
-    console.log(dataId);
     setDataId(dataId);
     setAction(action);
   };
@@ -213,9 +214,7 @@ const Transaksi = () => {
             <InputSearch
               query={transaksi.keyword}
               handleChange={(e) => {
-                console.log(setKeyword(e.target.value))
-                dispatch(setKeyword(e.target.value));
-                dispatch(setPage(1));
+                
               }}
             />
           </div>
@@ -250,7 +249,7 @@ const Transaksi = () => {
             handleSortTable={handleSortTable}
             handleFilterLimit={(limit) => dispatch(setLimit(limit))}
             handlePageClick={({ selected }) => {
-              dispatch(setPage(selected + 1))
+              dispatch(setPage(selected + 1));
             }}
           />
         </div>
