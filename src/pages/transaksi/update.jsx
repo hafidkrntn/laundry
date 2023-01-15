@@ -50,8 +50,8 @@ const TransaksiEdit = ({ isModalOpen, onCloseModal, dataId }) => {
   };
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name] : e.target.value });
-  }
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -64,9 +64,9 @@ const TransaksiEdit = ({ isModalOpen, onCloseModal, dataId }) => {
     await postData(`/transaksi/update/${dataId}`, formResult);
     onCloseModal();
     window.location.reload(true);
-  }
+  };
 
-   const handleChangeDropdown = useCallback(
+  const handleChangeDropdown = useCallback(
     (valueSelected) => {
       setForm({ ...form, pembayaran: valueSelected });
       setSelectedDropdown(valueSelected);
@@ -90,14 +90,15 @@ const TransaksiEdit = ({ isModalOpen, onCloseModal, dataId }) => {
 
   useEffect(() => {
     fetchOneData();
-
-  }, [dataId])
+  }, [dataId]);
 
   if (isModalOpen) {
     return (
       <div>
         <Modal name="Edit Transaksi" handleCLoseModal={onCloseModal}>
           <TransaksiForm
+            button="green"
+            buttonText="Ubah Data"
             form={form}
             formValidation={formValidation}
             handleChange={handleChange}

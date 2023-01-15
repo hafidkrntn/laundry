@@ -15,11 +15,14 @@ import { getDownloadPdf } from "../../utils/fetch";
 
 const Dashboard = () => {
   const redux = useSelector((state) => state.transaksi);
-  // console.log(redux.customer)
   const dispatch = useDispatch();
   const transaksi = redux.data;
   const masterData = redux.paket;
   const customer = redux.customer;
+  const total = transaksi.map((data) => data.total);
+  const alltotal = total
+    .reduce((sum, value) => sum + value, 0)
+    .toLocaleString("Id", { style: "currency", currency: "IDR" });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dataId, setDataId] = useState("");
   const [action, setAction] = useState("");
@@ -77,12 +80,6 @@ const Dashboard = () => {
       sortbyOrder: "",
     },
     {
-      name: "Status Order",
-      value: "pembayaran",
-      sortable: true,
-      sortbyOrder: "",
-    },
-    {
       name: "Total",
       value: "total",
       sortable: true,
@@ -111,7 +108,7 @@ const Dashboard = () => {
   const handleDownloadPdf = async () => {
     await getDownloadPdf(`/download/pdf/${dataId}`);
     handleModalClose();
-    window.location.reload(true);
+    // window.location.reload(true);
   };
 
   const handleDataId = (dataId, action) => {
@@ -135,7 +132,12 @@ const Dashboard = () => {
         s.status === "Master Data" ? { ...s, value: masterData.length } : s
       )
     );
-  });
+    setCard((state) =>
+      state.map((s) =>
+        s.status === "Total Transaksi" ? { ...s, value: alltotal } : s
+      )
+    );
+  }, [card]);
 
   useEffect(() => {
     dispatch(fetchAllData());
@@ -193,6 +195,7 @@ const Dashboard = () => {
             total={redux.total}
             pages={redux.pages}
             page={redux.page}
+            limit={redux.limit}
           />
         </div>
       </div>

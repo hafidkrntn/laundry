@@ -3,11 +3,15 @@ import Modal from "../../components/modal";
 import TransaksiForm from "./form";
 import { postData } from "../../utils/fetch";
 
-
-const TransaksiCreate = ({ isModalOpen, onCloseModal, paketData }) => {
+const TransaksiCreate = ({
+  isModalOpen,
+  onCloseModal,
+  paketData,
+  customer,
+}) => {
   const [selectedPaketDropdown, setSelectedPaketDropdown] = useState("");
-  // console.log(paketData.map((data) => data.nama_paket))
   const [selectedDropdown, setSelectedDropdown] = useState("");
+  const [selectedCustomerDropdown, setSelectedCustomerDropdown] = useState("");
   const [form, setForm] = useState({
     customer: "",
     paket: "",
@@ -27,15 +31,16 @@ const TransaksiCreate = ({ isModalOpen, onCloseModal, paketData }) => {
   });
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    if (e.target.name === "berat" || e.target.name === "harga") {
+      setForm({
+        ...form,
+        [e.target.name]: e.target.value,
+        total: form.berat * form.harga,
+      });
+    } else {
+      setForm({ ...form, [e.target.name]: e.target.value });
+    }
   };
-
-  const handleTotalChange = useCallback(
-    (e) => {
-      setForm({ ...form, total: e.target.value });
-    },
-    [form]
-  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -59,10 +64,17 @@ const TransaksiCreate = ({ isModalOpen, onCloseModal, paketData }) => {
   );
 
   const handlePaketChangeDropdown = useCallback(
-    (paket, valueSelected) => {
-      console.log(form)
-      setForm({ ...form, nama_paket: paket});
+    (paketSelected, valueSelected) => {
+      setForm({ ...form, paket: valueSelected });
       setSelectedPaketDropdown(valueSelected);
+    },
+    [form]
+  );
+
+  const handleCustomerChangeDropdown = useCallback(
+    (customerSelected, valueSelected) => {
+      setForm({ ...form, customer: valueSelected});
+      setSelectedCustomerDropdown(valueSelected);
     },
     [form]
   );
@@ -89,7 +101,6 @@ const TransaksiCreate = ({ isModalOpen, onCloseModal, paketData }) => {
     });
   };
 
-
   if (isModalOpen) {
     return (
       <div className="">
@@ -107,7 +118,9 @@ const TransaksiCreate = ({ isModalOpen, onCloseModal, paketData }) => {
             handlePaketChangeDropdown={handlePaketChangeDropdown}
             selectedPaketDropdown={selectedPaketDropdown}
             optionsPaket={paketData.map((data) => data)}
-            handleTotalChange={handleTotalChange}
+            optionsCustomer={customer.map((data) => data)}
+            handleCustomerChangeDropdown={handleCustomerChangeDropdown}
+            selectedCustomerDropdown={selectedCustomerDropdown}
             options={["Lunas", "Belum Lunas"]}
             formValidation={formValidation}
             resetFormValidation={resetFormValidation}
@@ -115,8 +128,7 @@ const TransaksiCreate = ({ isModalOpen, onCloseModal, paketData }) => {
               resetForm();
               resetFormValidation();
               onCloseModal();
-          }}
-
+            }}
           />
         </Modal>
       </div>

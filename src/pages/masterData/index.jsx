@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Table from "../../components/table";
-import Button from "../../components/button/Button";
 import ButtonModal from "../../components/buttonModal/index";
-import { InputSearch } from "../../components/input/InputSearch";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchAllData,
@@ -15,10 +13,11 @@ import Create from "./create";
 import { getDownloadFile } from "../../utils/fetch";
 import Edit from "./update";
 import Delete from "./delete";
+import { InputSearch } from "../../components/input/inputSearchData";
 
 const MasterData = () => {
   const datas = useSelector((state) => state.masterData);
-  // console.log(datas)
+  const master_data = datas.data;
   const dispatch = useDispatch();
   const [dataId, setDataId] = useState("");
   const [action, setAction] = useState("");
@@ -117,7 +116,6 @@ const MasterData = () => {
   }, [
     dispatch,
     datas.page,
-    datas.keyword,
     datas.limit,
     datas.orderBy,
     datas.orderDirection,
@@ -164,14 +162,7 @@ const MasterData = () => {
         <h1 className="text-4xl">Master Data</h1>
         <div className="flex flex-wrap justify-between items-center mt-20">
           <div>
-            <InputSearch
-              placeholder="Search"
-              query={datas.keyword}
-              handleChange={(e) => {
-                dispatch(setKeyword(e.target.value));
-                dispatch(setPage(1));
-              }}
-            />
+            <InputSearch data={master_data} />
           </div>
           <div className="flex flex-wrap space-x-5">
             <button
@@ -199,6 +190,13 @@ const MasterData = () => {
             total={datas.total}
             pages={datas.pages}
             page={datas.page}
+            limit={datas.limit}
+            from={datas.from}
+            handleFilterLimit={(limit) => dispatch(setLimit(limit))}
+            handleSortTable={handleSortTable}
+            handlePageClick={({ selected }) => {
+              dispatch(setPage(selected + 1));
+            }}
           />
         </div>
       </div>

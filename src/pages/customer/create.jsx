@@ -5,15 +5,15 @@ import { postData } from "../../utils/fetch";
 
 const Create = ({ isModalOpen, onCloseModal }) => {
   const [form, setForm] = useState({
-    kode: "",
-    nama_paket: "",
-    harga: "",
+    nama: "",
+    alamat: "",
+    handphone: "",
   });
 
   const [formValidation, setFormValidation] = useState({
-    kode: "",
-    nama_paket: "",
-    harga: "",
+    nama: "",
+    alamat: "",
+    handphone: "",
   });
 
   const handleChange = (e) => {
@@ -22,31 +22,31 @@ const Create = ({ isModalOpen, onCloseModal }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await postData("/datas/register", form);
+    await postData("/users/register", form);
     onCloseModal();
     window.location.reload(true);
   };
 
   const resetForm = () => {
     setForm({
-      kode: "",
-      nama_paket: "",
-      harga: "",
+      nama: "",
+    alamat: "",
+    handphone: "",
     });
   };
 
   const resetFormValidation = () => {
     setFormValidation({
-      kode: "",
-      nama_paket: "",
-      harga: "",
+      nama: "",
+    alamat: "",
+    handphone: "",
     });
   };
 
   if (isModalOpen) {
     return (
       <div>
-        <Modal name="Create Master Data" handleCLoseModal={onCloseModal}>
+        <Modal name="Create Customer" handleCLoseModal={onCloseModal}>
           <Form
             buttonColor="blue"
             buttonClass="border border-gray-3 bg-green-navbar text-white hover:bg-green-300"

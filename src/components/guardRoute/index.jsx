@@ -1,14 +1,13 @@
+import * as React from "react";
 import { useSelector } from "react-redux";
-import { Navigate } from "react-router"
+import { Navigate } from "react-router-dom";
 
-const GuardRoute = () => {
-    let { token } = useSelector((state) => state.auth)
-
-    if (token) {
-        return children;
-    }
-
-    return <Navigate to="/" />;
+export default function GuardRoute({ children }) {
+  let { token } = useSelector((state) => state.auth);
+  if (children) {
+    if (token) return <Navigate to="/dashboard" replace={true} />;
+  } else {
+    if (!token) return <Navigate to="/login" replace={true} />;
+  }
+  return children ;
 }
-
-export default GuardRoute;

@@ -22,7 +22,9 @@ const TransaksiForm = ({
   handleChangeDropdown,
   selectedPaketDropdown,
   handlePaketChangeDropdown,
-  handleTotalChange,
+  optionsCustomer,
+  selectedCustomerDropdown,
+  handleCustomerChangeDropdown,
   optionsPaket,
 }) => {
   return (
@@ -31,33 +33,28 @@ const TransaksiForm = ({
       onSubmit={handleSubmit}
     >
       <div className="space-y-6 p-6">
-        <InputTextWithLebel
-          name="customer"
-          label="Nama Customer"
-          onChange={handleChange}
-          value={form.customer}
+        <SelectDropdown
+          label="Customer"
+          placeholder="Pilih Salah Satu"
+          color={buttonColor}
+          optionId={optionsCustomer && optionsCustomer.map((data) => data._id)}
+          optionName={
+            optionsCustomer && optionsCustomer.map((data) => data.nama)
+          }
+          selectedDropdown={selectedCustomerDropdown}
+          handleChangeDropdown={handleCustomerChangeDropdown}
           validation={formValidation.customer}
         />
-        {/* <SelectDropdown
-            label="Paket"
-            placeholder="Pilih Salah Satu"
-            color={buttonColor}
-            optionId={optionsPaket && optionsPaket.map((data) => data._id)}
-            optionName={
-              optionsPaket && optionsPaket.map((data) => data.nama_paket)
-            }
-            option={false}
-            noneOption={noneOption}
-            value={form.paket}
-            selectedDropdown={selectedPaketDropdown}
-            handleChangeDropdown={handlePaketChangeDropdown}
-            validation={formValidation.paket}
-          /> */}
-        <InputTextWithLebel
-          name="paket"
-          label="Nama Paket"
-          onChange={handleChange}
-          value={form.paket}
+        <SelectDropdown
+          label="Paket"
+          placeholder="Pilih Salah Satu"
+          color={buttonColor}
+          optionId={optionsPaket && optionsPaket.map((data) => data._id)}
+          optionName={
+            optionsPaket && optionsPaket.map((data) => data.nama_paket)
+          }
+          selectedDropdown={selectedPaketDropdown}
+          handleChangeDropdown={handlePaketChangeDropdown}
           validation={formValidation.paket}
         />
         <div className="flex gap-4">
@@ -79,9 +76,7 @@ const TransaksiForm = ({
         <InputTextWithLebel
           name="total"
           label="Total Pembayaran"
-          optionId={optionsPaket && optionsPaket.map((data) => data._id)}
-          optionName={optionsPaket && optionsPaket.map((data) => data.harga)}
-          onChange={handleTotalChange}
+          // onChange={handleChange}
           value={form.total}
           validation={formValidation.total}
         />
@@ -133,15 +128,6 @@ const TransaksiForm = ({
             </ButtonModal>
           )}
         </div>
-
-        {/* <button
-          className="bg-[#6ECCAF] hover:bg-blue-600 w-full rounded-xl text-white text-2xl py-2"
-          type="submit"
-          resetModal={resetModal}
-        >
-          {" "}
-          Create{" "}
-        </button> */}
       </div>
     </form>
   );

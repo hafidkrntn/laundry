@@ -6,7 +6,7 @@ import { faUserCircle } from "@fortawesome/free-regular-svg-icons";
 const Navbar = () => {
   const handleLogout = () => {
     localStorage.clear();
-    window.location.href = "/";
+    window.location.href = "/login";
   };
   return (
     <nav className="relative border-gray-200 bg-green-navbar px-2 py-4 sm:px-4">

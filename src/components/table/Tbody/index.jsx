@@ -119,20 +119,25 @@ export const Tbody = ({
                             ? loopData[column.value.replace(":label", "")]
                             : ""}
                         </span>
-                      ) : loopData[column.value] ? 
-                          loopData[column.value][column.multipleObjValue] ?
-                            loopData[column.value][column.multipleObjValue]
-                        :
-                      (
-                        typeof loopData[column.value] === "object" ? (
+                      ) : loopData[column.value] ? (
+                        loopData[column.value][column.multipleObjValue] ? (
+                          loopData[column.value][column.multipleObjValue]
+                        ) : typeof loopData[column.value] === "object" ? (
                           Object.keys(loopData[column.value]).map(
                             (item, idx, array) =>
                               typeof loopData[column.value][item] ===
                               "object" ? (
-                                loopData[column.value][item][column.multipleObjValue] && column.thirdObjValue ? 
-                                loopData[column.value][item][column.multipleObjValue][column.thirdObjValue]
-                                :
-                                loopData[column.value][item][column.multipleObjValue]
+                                loopData[column.value][item][
+                                  column.multipleObjValue
+                                ] && column.thirdObjValue ? (
+                                  loopData[column.value][item][
+                                    column.multipleObjValue
+                                  ][column.thirdObjValue]
+                                ) : (
+                                  loopData[column.value][item][
+                                    column.multipleObjValue
+                                  ]
+                                )
                               ) : array.length - 1 === idx ? ( // untuk tambah badge pada type data object example {a:"data1",parent:{id:1,nama:"data2"}}
                                 typeof badge === "object" ? (
                                   badge.field === item ? (
@@ -155,7 +160,7 @@ export const Tbody = ({
                         ) : column.value === "jnd" ? (
                           `${loopData[column.value]}%`
                         ) : (
-                            loopData[column.value]
+                          loopData[column.value]
                         )
                       ) : (
                         loopData[column.value]

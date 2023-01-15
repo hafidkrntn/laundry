@@ -1,71 +1,70 @@
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Modal from "../../components/modal";
 import Form from "./form";
 import { postData } from "../../utils/fetch";
 
 const Edit = ({ isModalOpen, onCloseModal, dataId }) => {
-  const redux = useSelector((state) => state.masterData.data);
-  // console.log(redux)
+  const redux = useSelector((state) => state.customer.data);
+  console.log(redux);
   const [form, setForm] = useState({
-    kode: "",
-    nama_paket: "",
-    harga: "",
+    nama: "",
+    alamat: "",
+    handphone: "",
   });
 
   const [formValidation, setFormValidation] = useState({
-    kode: "",
-    nama_paket: "",
-    harga: "",
+    nama: "",
+    alamat: "",
+    handphone: "",
   });
 
-  const resetForm = () => {
-    setForm({
-        kode: "",
-        nama_paket: "",
-        harga: "",
-    });
-  };
-
-  const resetFormValidation = () => {
-    setFormValidation({
-        kode: "",
-        nama_paket: "",
-        harga: "",
-    });
-  };
-
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name] : e.target.value });
-  }
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await postData(`/datas/update/${dataId}`, form);
+    await postData(`/users/update/${dataId}`, form);
     onCloseModal();
     window.location.reload(true);
-  }
+  };
 
   const fetchOneData = async () => {
     await resetForm();
     const oneData = redux.filter((data) => data._id === dataId);
     setForm({
       ...form,
-      kode: oneData[0]?.kode,
-      nama_paket: oneData[0]?.nama_paket,
-      harga: oneData[0]?.harga,
+      nama: oneData[0]?.nama,
+      alamat: oneData[0]?.alamat,
+      handphone: oneData[0]?.handphone,
+    });
+  };
+
+  const resetForm = () => {
+    setForm({
+      nama: "",
+      alamat: "",
+      handphone: "",
+    });
+  };
+
+  const resetFormValidation = () => {
+    setFormValidation({
+      nama: "",
+      alamat: "",
+      harga: "",
     });
   };
 
   useEffect(() => {
     fetchOneData();
-
-  }, [dataId])
+  }, [dataId]);
 
   if (isModalOpen) {
     return (
       <div>
-        <Modal name="Edit Transaksi" handleCLoseModal={onCloseModal}>
+        <Modal name="Edit Customer" handleCLoseModal={onCloseModal}>
           <Form
             buttonText="Ubah Data"
             form={form}
@@ -73,9 +72,9 @@ const Edit = ({ isModalOpen, onCloseModal, dataId }) => {
             handleChange={handleChange}
             handleSubmit={handleSubmit}
             cancelModal={() => {
-              fetchOneData();
-              resetFormValidation();
-              onCloseModal();
+                fetchOneData();
+                resetFormValidation();
+                onCloseModal();
             }}
           />
         </Modal>

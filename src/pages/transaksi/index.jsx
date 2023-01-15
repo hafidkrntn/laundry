@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Table from "../../components/table";
 import ButtonModal from "../../components/buttonModal/index";
-import { InputSearch } from "../../components/input/InputSearch";
+import { InputSearch } from "../../components/input/InputSearchTransaksi";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchAllData,
-  setKeyword,
   setLimit,
   setOrderBy,
   setOrderDirection,
@@ -14,15 +13,12 @@ import {
 import TransaksiCreate from "./create";
 import TransaksiDelete from "./delete";
 import TransaksiEdit from "./update";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { getDownloadFile, getDownloadPdf } from "../../utils/fetch";
-import { useNavigate } from "react-router-dom";
 
 const Transaksi = () => {
   const transaksi = useSelector((state) => state.transaksi);
-  // console.log(transaksi.paket)
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const datas = transaksi.data;
   const [dataId, setDataId] = useState("");
   const [action, setAction] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -65,8 +61,6 @@ const Transaksi = () => {
     },
   ]);
 
-  
-  
   const handleModalOpen = useCallback(
     (action) => {
       setAction(action);
@@ -85,12 +79,15 @@ const Transaksi = () => {
     [isModalOpen]
   );
 
+  const handlePrintExcel = async () => {
+    await getDownloadFile("/export/transaksi/excel");
+  };
+
   const handleDownloadPdf = async () => {
     await getDownloadPdf(`/download/pdf/${dataId}`);
     handleModalClose();
     window.location.reload(true);
   };
-
 
   const handleDataId = (dataId, action) => {
     setDataId(dataId);
@@ -161,7 +158,6 @@ const Transaksi = () => {
   }, [
     dispatch,
     transaksi.page,
-    transaksi.keyword,
     transaksi.limit,
     transaksi.orderBy,
     transaksi.orderDirection,
@@ -180,6 +176,7 @@ const Transaksi = () => {
                 isModalOpen={handleModalOpen}
                 onCloseModal={handleModalClose}
                 paketData={transaksi.paket}
+                customer={transaksi.customer}
               />
             );
           case "edit":
@@ -211,12 +208,7 @@ const Transaksi = () => {
         <h1 className="text-4xl">Transaksi</h1>
         <div className="flex flex-wrap justify-between items-center mt-20">
           <div>
-            <InputSearch
-              query={transaksi.keyword}
-              handleChange={(e) => {
-                
-              }}
-            />
+            <InputSearch data={datas} />
           </div>
           <div className="flex flex-wrap space-x-5">
             <button
@@ -246,8 +238,9 @@ const Transaksi = () => {
             pages={transaksi.pages}
             page={transaksi.page}
             limit={transaksi.limit}
-            handleSortTable={handleSortTable}
+            from={transaksi.from}
             handleFilterLimit={(limit) => dispatch(setLimit(limit))}
+            handleSortTable={handleSortTable}
             handlePageClick={({ selected }) => {
               dispatch(setPage(selected + 1));
             }}
