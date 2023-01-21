@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "../../components/modal";
-import TransaksiForm from "../transaksi/form";
 import { postData } from "../../utils/fetch";
+import FormEdit from "../transaksi/formEdit";
 
 const Edit = ({ isModalOpen, onCloseModal, dataId }) => {
   const redux = useSelector((state) => state.transaksi.data);
@@ -50,8 +50,8 @@ const Edit = ({ isModalOpen, onCloseModal, dataId }) => {
   };
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name] : e.target.value });
-  }
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -64,9 +64,9 @@ const Edit = ({ isModalOpen, onCloseModal, dataId }) => {
     await postData(`/transaksi/update/${dataId}`, formResult);
     onCloseModal();
     window.location.reload(true);
-  }
+  };
 
-   const handleChangeDropdown = useCallback(
+  const handleChangeDropdown = useCallback(
     (valueSelected) => {
       setForm({ ...form, pembayaran: valueSelected });
       setSelectedDropdown(valueSelected);
@@ -90,14 +90,15 @@ const Edit = ({ isModalOpen, onCloseModal, dataId }) => {
 
   useEffect(() => {
     fetchOneData();
-
-  }, [dataId])
+  }, [dataId]);
 
   if (isModalOpen) {
     return (
       <div>
         <Modal name="Edit Transaksi" handleCLoseModal={onCloseModal}>
-          <TransaksiForm
+          <FormEdit
+            button="green"
+            buttonText="Ubah Data"
             form={form}
             formValidation={formValidation}
             handleChange={handleChange}

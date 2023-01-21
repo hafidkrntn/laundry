@@ -6,7 +6,6 @@ import { postData } from "../../utils/fetch";
 
 const Edit = ({ isModalOpen, onCloseModal, dataId }) => {
   const redux = useSelector((state) => state.customer.data);
-  console.log(redux);
   const [form, setForm] = useState({
     nama: "",
     alamat: "",

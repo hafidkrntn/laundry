@@ -1,14 +1,19 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "../../components/modal";
-import TransaksiForm from "./form";
 import { postData } from "../../utils/fetch";
+import FormEdit from "./formEdit";
 
-const TransaksiEdit = ({ isModalOpen, onCloseModal, dataId }) => {
+const TransaksiEdit = ({ isModalOpen, onCloseModal, dataId,}) => {
   const redux = useSelector((state) => state.transaksi.data);
-  // console.log(redux)
+  const paket = useSelector((state) => state.transaksi.paket);
+  const customer = useSelector((state) => state.transaksi.customer);
+  // console.log(paket)
   const dispatch = useDispatch();
   const [selectedDropdown, setSelectedDropdown] = useState("");
+  const [selectedPaketDropdown, setSelectedPaketDropdown] = useState("");
+  const [selectedCustomerDropdown, setSelectedCustomerDropdown] = useState("");
+  const [selectedHargaDropdown, setSelectedHargaDropdown] = useState("");
   const [form, setForm] = useState({
     customer: "",
     paket: "",
@@ -49,8 +54,18 @@ const TransaksiEdit = ({ isModalOpen, onCloseModal, dataId }) => {
     });
   };
 
+
+
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    if (e.target.name === "berat" || e.target.name === "harga") {
+      setForm({
+        ...form,
+        [e.target.name]: e.target.value,
+        total: form.berat * form.harga,
+      });
+    } else {
+      setForm({ ...form, [e.target.name]: e.target.value });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -74,9 +89,34 @@ const TransaksiEdit = ({ isModalOpen, onCloseModal, dataId }) => {
     [form]
   );
 
+  const handlePaketChangeDropdown = useCallback(
+    (paketSelected, valueSelected) => {
+      setForm({ ...form, paket: valueSelected });
+      setSelectedPaketDropdown(valueSelected);
+    },
+    [form]
+  );
+
+  const handleCustomerChangeDropdown = useCallback(
+    (customerSelected, valueSelected) => {
+      setForm({ ...form, customer: valueSelected });
+      setSelectedCustomerDropdown(valueSelected);
+    },
+    [form]
+  );
+
+  const handleHargaChangeDropdown = useCallback(
+    (hargaSelected, valueSelected) => {
+      setForm({ ...form, harga: valueSelected });
+      setSelectedHargaDropdown(hargaSelected);
+    },
+    [form]
+  );
+
   const fetchOneData = async () => {
     await resetForm();
     const oneData = redux.filter((data) => data._id === dataId);
+    console.log(oneData[0]?.paket)
     setForm({
       ...form,
       customer: oneData[0]?.customer,
@@ -96,16 +136,25 @@ const TransaksiEdit = ({ isModalOpen, onCloseModal, dataId }) => {
     return (
       <div>
         <Modal name="Edit Transaksi" handleCLoseModal={onCloseModal}>
-          <TransaksiForm
+          <FormEdit
             button="green"
             buttonText="Ubah Data"
             form={form}
-            formValidation={formValidation}
+            selectedDropdown={selectedDropdown}
             handleChange={handleChange}
             handleSubmit={handleSubmit}
             handleChangeDropdown={handleChangeDropdown}
-            selectedDropdown={selectedDropdown}
+            handlePaketChangeDropdown={handlePaketChangeDropdown}
+            selectedPaketDropdown={selectedPaketDropdown}
+            optionsPaket={paket.map((data) => data)}
+            optionsCustomer={customer.map((data) => data)}
+            handleCustomerChangeDropdown={handleCustomerChangeDropdown}
+            selectedCustomerDropdown={selectedCustomerDropdown}
+            selectedHargaDropdown={selectedHargaDropdown}
+            handleHargaChangeDropdown={handleHargaChangeDropdown}
             options={["Lunas", "Belum Lunas"]}
+            formValidation={formValidation}
+            resetFormValidation={resetFormValidation}
             cancelModal={() => {
               fetchOneData();
               resetFormValidation();

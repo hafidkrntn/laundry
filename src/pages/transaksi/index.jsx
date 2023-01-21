@@ -85,8 +85,10 @@ const Transaksi = () => {
 
   const handleDownloadPdf = async () => {
     await getDownloadPdf(`/download/pdf/${dataId}`);
-    handleModalClose();
-    window.location.reload(true);
+    setTimeout(() => {
+      handleDownloadPdf();
+      window.location.reload(true);
+    }, 5000);
   };
 
   const handleDataId = (dataId, action) => {

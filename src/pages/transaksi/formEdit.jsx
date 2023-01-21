@@ -3,7 +3,7 @@ import ButtonModal from "../../components/buttonModal";
 import InputTextWithLebel from "../../components/input/InputTextWithLabel";
 import SelectDropdown from "../../components/selectDropdown";
 
-const TransaksiForm = ({
+const FormEdit = ({
   handleSubmit,
   handleChange,
   formValidation = "",
@@ -27,7 +27,7 @@ const TransaksiForm = ({
   handleCustomerChangeDropdown,
   optionsPaket,
   selectedHargaDropdown,
-  handleHargaChangeDropdown
+  handleHargaChangeDropdown,
 }) => {
   return (
     <form
@@ -35,7 +35,14 @@ const TransaksiForm = ({
       onSubmit={handleSubmit}
     >
       <div className="space-y-6 p-6">
-        <SelectDropdown
+        <InputTextWithLebel
+          name="customer"
+          label="Customer"
+          onChange={handleChange}
+          value={form.customer}
+          validation={formValidation.customer}
+        />
+        {/* <SelectDropdown
           label="Customer"
           placeholder="Pilih Salah Satu"
           color={buttonColor}
@@ -46,8 +53,8 @@ const TransaksiForm = ({
           selectedDropdown={selectedCustomerDropdown}
           handleChangeDropdown={handleCustomerChangeDropdown}
           validation={formValidation.customer}
-        />
-        <SelectDropdown
+        /> */}
+        {/* <SelectDropdown
           label="Paket"
           placeholder="Pilih Salah Satu"
           color={buttonColor}
@@ -58,6 +65,13 @@ const TransaksiForm = ({
           selectedDropdown={selectedPaketDropdown}
           handleChangeDropdown={handlePaketChangeDropdown}
           validation={formValidation.paket}
+        /> */}
+        <InputTextWithLebel
+          name="paket"
+          label="Nama Paket"
+          onChange={handleChange}
+          value={form.paket}
+          validation={formValidation.paket}
         />
         <div className="grid grid-cols-2 gap-4">
           <InputTextWithLebel
@@ -67,7 +81,7 @@ const TransaksiForm = ({
             value={form.berat}
             validation={formValidation.berat}
           />
-           <SelectDropdown
+          {/* <SelectDropdown
           label="Harga"
           placeholder="Pilih Salah Satu"
           color={buttonColor}
@@ -79,14 +93,14 @@ const TransaksiForm = ({
           handleChangeDropdown={handleHargaChangeDropdown}
           validation={formValidation.harga}
           value={form.harga}
-        />
-          {/* <InputTextWithLebel
+        /> */}
+          <InputTextWithLebel
             name="harga"
             label="Harga"
             onChange={handleChange}
             value={form.harga}
             validation={formValidation.harga}
-          /> */}
+          />
         </div>
         <InputTextWithLebel
           name="total"
@@ -148,4 +162,4 @@ const TransaksiForm = ({
   );
 };
 
-export default TransaksiForm;
+export default FormEdit;

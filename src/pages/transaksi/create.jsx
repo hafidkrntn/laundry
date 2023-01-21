@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Modal from "../../components/modal";
 import TransaksiForm from "./form";
 import { postData } from "../../utils/fetch";
@@ -12,6 +12,7 @@ const TransaksiCreate = ({
   const [selectedPaketDropdown, setSelectedPaketDropdown] = useState("");
   const [selectedDropdown, setSelectedDropdown] = useState("");
   const [selectedCustomerDropdown, setSelectedCustomerDropdown] = useState("");
+  const [selectedHargaDropdown, setSelectedHargaDropdown] = useState("");
   const [form, setForm] = useState({
     customer: "",
     paket: "",
@@ -29,6 +30,14 @@ const TransaksiCreate = ({
     total: "",
     pembayaran: "Lunas/Belum Lunas",
   });
+
+  const handleHargaChangeDropdown = useCallback(
+    (hargaSelected, valueSelected) => {
+      setForm({ ...form, harga: valueSelected });
+      setSelectedHargaDropdown(hargaSelected);
+    },
+    [form]
+  );
 
   const handleChange = (e) => {
     if (e.target.name === "berat" || e.target.name === "harga") {
@@ -55,6 +64,7 @@ const TransaksiCreate = ({
     window.location.reload(true);
   };
 
+
   const handleChangeDropdown = useCallback(
     (valueSelected) => {
       setForm({ ...form, pembayaran: valueSelected });
@@ -73,7 +83,7 @@ const TransaksiCreate = ({
 
   const handleCustomerChangeDropdown = useCallback(
     (customerSelected, valueSelected) => {
-      setForm({ ...form, customer: valueSelected});
+      setForm({ ...form, customer: valueSelected });
       setSelectedCustomerDropdown(valueSelected);
     },
     [form]
@@ -83,7 +93,7 @@ const TransaksiCreate = ({
     setForm({
       customer: "",
       paket: "",
-      berat: "",
+      berat: 0,
       harga: "",
       total: "",
       pembayaran: "",
@@ -94,7 +104,7 @@ const TransaksiCreate = ({
     setFormValidation({
       customer: "",
       paket: "",
-      berat: "",
+      berat: 0,
       harga: "",
       total: "",
       pembayaran: "",
@@ -121,6 +131,8 @@ const TransaksiCreate = ({
             optionsCustomer={customer.map((data) => data)}
             handleCustomerChangeDropdown={handleCustomerChangeDropdown}
             selectedCustomerDropdown={selectedCustomerDropdown}
+            selectedHargaDropdown={selectedHargaDropdown}
+            handleHargaChangeDropdown={handleHargaChangeDropdown}
             options={["Lunas", "Belum Lunas"]}
             formValidation={formValidation}
             resetFormValidation={resetFormValidation}
