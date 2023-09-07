@@ -13,7 +13,6 @@ export const InputSearch = ({ data }) => {
       return value.customer.toLowerCase().includes(searchWord.toLowerCase());
     });
 
-
     if (searchWord === "") {
       setFilteredData([]);
     } else {
@@ -65,6 +64,9 @@ export const InputSearch = ({ data }) => {
                         <th scope="col" className="px-6 py-3">
                           Total
                         </th>
+                        <th scope="col" className="px-6 py-3">
+                          Status Order
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -80,6 +82,9 @@ export const InputSearch = ({ data }) => {
                         <td className="px-6 py-4">{value.berat}</td>
                         <td className="px-6 py-4">{value.harga}</td>
                         <td className="px-6 py-4">{value.total}</td>
+                        <td className="px-6 py-4">
+                          {value.pembayaran ? "Lunas" : "Belum Lunas"}
+                        </td>
                       </tr>
                     </tbody>
                   </table>
